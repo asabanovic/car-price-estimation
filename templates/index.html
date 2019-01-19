@@ -8,7 +8,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Auto Procjena</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <style>
         .flex {
@@ -28,18 +29,11 @@
         }
 
 
-
-
-
-
-
-
-
     </style>
 </head>
 <body>
-<div class="container flex flex--wrap flex--center">
-
+<div class="container flex flex--wrap flex--center" id="app">
+    <!--{% raw %}{{test}}{% endraw %}-->
     <div class="row">
         <div class="col s12 m6" style="text-align: right">
             <h2 class="col s12" style="margin-top: 0">Kupujete ili prodajete vozilo?</h2>
@@ -53,36 +47,36 @@
             </div>
         </div>
         <div class="col s12 m6">
-            <form action="/calculate" METHOD="POST">
+
                 <div class="input-field col s12">
-                    <select name="manufacturer">
+                    <select @change="getModels()" name="manufacturer" v-model="data.brand">
                         <option value="" disabled selected>Odabir</option>
                         {% for manufacturer in manufacturers %}
-                        <option value={{ manufacturer[0] }}>{{ manufacturer[1] }}</option>
+                        <option value={{ manufacturer[1] }}>{{ manufacturer[1] }}</option>
                         {% endfor %}
                     </select>
                     <label>Marka</label>
                 </div>
+
                 <div class="input-field col s12">
-                    <select name="model">
+                    <select name="model" v-model="data.model">
                         <option value="" disabled selected>Odabir</option>
-                        {% for model in models %}
-                        <option value={{ model[0] }}>{{ model[1] }}</option>
-                        {% endfor %}
+                        <option v-for="val in models" :value=val v-text:bind="val"></option>
                     </select>
                     <label>Model</label>
                 </div>
                 <div class="input-field col s12">
-                    <select name="year">
+                    <select name="year" v-model="data.year">
                         <option value="" disabled selected>Odabir</option>
                         {% for year in range(now.year, 1960, -1) %}
                         <option value={{ year }}>{{ year }}</option>
+                        <model :model="let"></model>
                         {% endfor %}
                     </select>
                     <label>Godina Proizvodnje</label>
                 </div>
                 <div class="input-field col s12">
-                    <select name="fuel">
+                    <select name="fuel" v-model="data.fuel">
                         <option value="" disabled selected>Odabir</option>
                         {% for fuel in fuels %}
                         <option value={{ fuel[0] }}>{{ fuel[1] }}</option>
@@ -91,7 +85,7 @@
                     <label>Gorivo</label>
                 </div>
                 <div class="input-field col s12">
-                    <select name="volume">
+                    <select name="volume" v-model="data.volume">
                         <option value="" disabled selected>Odabir</option>
                         {% for volume in volumes %}
                         <option value={{ volume }}>{{ volume }}</option>
@@ -100,15 +94,14 @@
                     <label>Motor (Zapremina)</label>
                 </div>
                 <div class="input-field col s12">
-                    <input name="mileage" placeholder="Kilometraža" id="mileage" type="text" class="validate">
+                    <input name="mileage" placeholder="Kilometraža" id="mileage" type="text" class="validate" v-model="data.mileage">
                     <label for="mileage">Kilometraža</label>
                 </div>
                 <div class="col s12">
-                    <button type="submit" class="waves-effect waves-light btn">Procijeni</button>
+                    <button @click="submit()" class="waves-effect waves-light btn">Procijeni</button>
                 </div>
 
-            </form>
-        </div>
+         </div>
     </div>
 </div>
 
@@ -117,21 +110,23 @@
         src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>-->
 <script>
-    $(document).ready(function(){
-        $('select').formSelect();
-    });
+    <!--$(document).ready(function(){-->
+        <!--&lt;!&ndash;$('select').formSelect();&ndash;&gt;-->
+    <!--});-->
 
-    $(document).ready(function(){
-        $('.datepicker').datepicker({
-            dateFormat: 'MM yy',
-            autoClose: true,
-            selectMonths: true
-        });
-    });
-
+    <!--$(document).ready(function(){-->
+        <!--$('.datepicker').datepicker({-->
+            <!--dateFormat: 'MM yy',-->
+            <!--autoClose: true,-->
+            <!--selectMonths: true-->
+        <!--});-->
+    <!--});-->
 
 </script>
+<script src="/path/axios/dist/axios.js"></script>
+<script src="/path/vue/dist/vue.js"></script>
+<script src="/static/js/app.js"></script>
 </html>
 
