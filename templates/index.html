@@ -1,6 +1,4 @@
 <!doctype html>
-
-<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -49,23 +47,26 @@
         <div class="col s12 m6">
 
                 <div class="input-field col s12">
+                    <label>Marka</label>
                     <select @change="getModels()" name="manufacturer" v-model="data.brand">
                         <option value="" disabled selected>Odabir</option>
                         {% for manufacturer in manufacturers %}
                         <option value={{ manufacturer[1] }}>{{ manufacturer[1] }}</option>
                         {% endfor %}
                     </select>
-                    <label>Marka</label>
+
                 </div>
 
                 <div class="input-field col s12">
+                    <label>Model</label>
                     <select name="model" v-model="data.model">
                         <option value="" disabled selected>Odabir</option>
-                        <option v-for="val in models" :value=val v-text:bind="val"></option>
+                        <option v-for="val in data.models" :value=val v-text:bind="val"></option>
                     </select>
-                    <label>Model</label>
+
                 </div>
                 <div class="input-field col s12">
+                    <label>Godina Proizvodnje</label>
                     <select name="year" v-model="data.year">
                         <option value="" disabled selected>Odabir</option>
                         {% for year in range(now.year, 1960, -1) %}
@@ -73,34 +74,41 @@
                         <model :model="let"></model>
                         {% endfor %}
                     </select>
-                    <label>Godina Proizvodnje</label>
+
                 </div>
                 <div class="input-field col s12">
+                    <label>Gorivo</label>
                     <select name="fuel" v-model="data.fuel">
                         <option value="" disabled selected>Odabir</option>
                         {% for fuel in fuels %}
                         <option value={{ fuel[0] }}>{{ fuel[1] }}</option>
                         {% endfor %}
                     </select>
-                    <label>Gorivo</label>
+
                 </div>
                 <div class="input-field col s12">
+                    <label>Motor (Zapremina)</label>
                     <select name="volume" v-model="data.volume">
                         <option value="" disabled selected>Odabir</option>
                         {% for volume in volumes %}
                         <option value={{ volume }}>{{ volume }}</option>
                         {% endfor %}
                     </select>
-                    <label>Motor (Zapremina)</label>
+
                 </div>
                 <div class="input-field col s12">
-                    <input name="mileage" placeholder="Kilometraža" id="mileage" type="text" class="validate" v-model="data.mileage">
                     <label for="mileage">Kilometraža</label>
+                    <input name="mileage" placeholder="Kilometraža" id="mileage" type="text" class="validate" v-model="data.mileage">
+
                 </div>
                 <div class="col s12">
-                    <button @click="submit()" class="waves-effect waves-light btn">Procijeni</button>
+                    <p style="margin-top: 5px;margin-bottom:5px"><strong>Uputstvo:</strong> Obratite pažnju da što preciznije odaberete parametre koji odgovaraju stvarnim modelima. Slučajni odabir parametara će značajno uticati na konačnu procjenu vozila</p>
+                    <button @click="submit()" type="button" class="btn btn-primary">Procijeni</button>
                 </div>
-
+                <div class="col s12" v-if="prediction">
+                    <p style="margin-top: 20px" v-if="loading">Analiziram ...</p>
+                    <h1>~ {% raw %}{{prediction}} {% endraw %} KM</h1>
+                </div>
          </div>
     </div>
 </div>

@@ -1,8 +1,19 @@
+Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {
+    var n = this,
+        decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+        decSeparator = decSeparator == undefined ? "." : decSeparator,
+        thouSeparator = thouSeparator == undefined ? "," : thouSeparator,
+        sign = n < 0 ? "-" : "",
+        i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+};
+
 var app = new Vue({
     el: '#app',
     data: {
 
-        data {
+        data: {
             'brand' : null,
             'models': [],
             'fuel': null,
@@ -12,18 +23,25 @@ var app = new Vue({
             'model': null
         },
 
-        prediction: null
+        prediction: null,
+
+        loading: false
+
+    },
+    watch: {
 
     },
 //    delimiters: ['[[',']]'],
 
     methods: {
         getModels() {
-			console.log("Getting organization images ...", this.brand);
+			console.log("Getting organization images ...", this.data.brand);
 
-            if (this.brand == null) {
+            if (this.data.brand == null) {
                 return false;
             }
+
+            this.prediction = null;
 
 			let data = {
 				brand: this.data.brand
@@ -37,7 +55,7 @@ var app = new Vue({
 				.then(
 					function(response) {
 						console.log(response);
-                        this.models = response.data;
+                        this.data.models = response.data;
 
                         this.$forceUpdate();
 					}.bind(this)
@@ -50,11 +68,11 @@ var app = new Vue({
 		submit() {
 		    console.log('Submitting');
 
-            if (this.brand == null) {
+            if (this.data.brand == null) {
                 return false;
             }
 
-
+            this.loading = true;
 
 			axios
 				.post(
@@ -64,14 +82,19 @@ var app = new Vue({
 				.then(
 					function(response) {
 						console.log(response);
-                        this.prediction = response.data;
-
+                        this.prediction = response.data.formatMoney(0,',','.');
+                        this.loading = false;
                         this.$forceUpdate();
 					}.bind(this)
 				)
 				.catch(function(error) {
+				    this.loading = false;
 					console.log(error);
 				});
 		}
+    },
+
+    created() {
+
     }
 });

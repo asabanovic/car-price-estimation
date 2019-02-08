@@ -24,11 +24,23 @@ def get_models():
     return resp
 
 
-
-@app.route('/')
-def hello_world():
+@app.route('/predict', methods=["POST"])
+def get_prediction():
+    data = request.get_json() or request.values
     api = Api()
     df_raw = api.load_data()
+    prediction = api.predict(df_raw, data)
+
+    resp = jsonify(prediction)
+    resp.status_code = 200
+
+    return resp
+
+
+@app.route('/')
+def index():
+    api = Api()
+    df_raw = api.load_categorized_data()
 
     df_raw, manufacturers, now, models, fuels, volumes = api.get_options(df_raw)
 
