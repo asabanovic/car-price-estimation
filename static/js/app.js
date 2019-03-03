@@ -25,7 +25,9 @@ var app = new Vue({
 
         prediction: null,
 
-        loading: false
+        loading: false,
+
+        warning: null
 
     },
     watch: {
@@ -40,6 +42,7 @@ var app = new Vue({
             if (this.data.brand == null) {
                 return false;
             }
+
 
             this.prediction = null;
 
@@ -68,9 +71,18 @@ var app = new Vue({
 		submit() {
 		    console.log('Submitting');
 
-            if (this.data.brand == null) {
+            if (this.data.brand == null ||
+                this.data.fuel == null ||
+                this.data.volume == null ||
+                this.data.year == null ||
+                this.data.model == null
+            ) {
+                this.warning = 'Sva polja su obavezna, molimo Vas da ih popunite.'
+                this.$forceUpdate();
                 return false;
             }
+
+            this.warning = null;
 
             this.loading = true;
 

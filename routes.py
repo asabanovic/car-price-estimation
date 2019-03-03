@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template, send_file, json, jsonify
 from app.api import Api
 from fastai.structured import *
-
+import numpy as np
+import locale
 
 app = Flask(__name__)
 
@@ -39,14 +40,20 @@ def get_prediction():
 
 @app.route('/')
 def index():
+    locale.setlocale(locale.LC_ALL, 'en_CA.UTF-8')
     api = Api()
-    df_raw = api.load_categorized_data()
+    df_raw, y = api.load_categorized_data()
 
     df_raw, manufacturers, now, models, fuels, volumes = api.get_options(df_raw)
 
+    age_ave = int(np.around(df_raw.Made.mean()))
+    price_ave = locale.currency(int(np.around(np.exp(y).mean())), grouping=True, symbol=False)
+    price_ave = price_ave.replace('.00','')
     return render_template(
         'index.html',
         df=df_raw,
+        age_ave=age_ave,
+        price_ave=price_ave,
         manufacturers=manufacturers,
         now=now,
         models=models,

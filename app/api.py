@@ -13,7 +13,7 @@ class Api:
         print("COLUMNS BEFORE: ", list(self.df_raw.columns))
         df_raw_categorized, y, nas = proc_df(self.df_raw, 'Price')
         print("COLUMNS AFTER PROC: ", list(df_raw_categorized.columns))
-        return df_raw_categorized
+        return df_raw_categorized, y
 
     def load_prediction_model(self):
         filename = 'tmp/olx-raw-prediction.sav'
@@ -49,7 +49,7 @@ class Api:
         print('Inside models ...')
         print('Checking for brand: ' + brand)
         self.load_data()
-        return list(self.df_raw[self.df_raw['Manufacturer'].isin([brand])].Model.values.unique())
+        return sorted(list(self.df_raw[self.df_raw['Manufacturer'].isin([brand])].Model.values.unique()))
 
     def get_manufacturer_code_value(self, df_raw, query_val):
         print('INSIDE MANU CODE VALUE: ', df_raw.dtypes)
@@ -81,7 +81,8 @@ class Api:
                      'Mileage': data['mileage'],
                      'Fuel': data['fuel'],
                      'Volume': data['volume'],
-                     'Published': datetime.datetime.today().strftime('%Y-%m-%d')
+                     'Published': datetime.datetime.today().strftime('%Y-%m-%d'),
+                     'Mileage/Age': self.df_raw['Mileage/Age'].mean()
                      }
         df = pd.DataFrame(data_dict, index=[0])
         add_datepart(df, 'Published')
