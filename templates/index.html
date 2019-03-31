@@ -116,7 +116,6 @@
                 <div class="col s12" v-if="warning">
                     <p style="margin-top: 20px; color: red">{% raw %}{{warning}} {% endraw %}</p>
                 </div>
-
          </div>
     </div>
 </div>
@@ -130,5 +129,17 @@
 <script src="/path/axios/dist/axios.js"></script>
 <script src="/path/vue/dist/vue.js"></script>
 <script src="/static/js/app.js"></script>
+{% if env == 'production' %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135498262-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-135498262-1');
+</script>
+
+{% endif %}
 </html>
 

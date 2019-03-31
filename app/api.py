@@ -74,7 +74,9 @@ class Api:
         print("RECEIVING DATA: ", data)
         for key, index in data.items():
             print(key, index)
-
+        current_year = datetime.datetime.now().year
+        mileage_age = 0 if current_year == int(data['year']) else int(data['mileage']) / (current_year - int(data['year']))
+        print (mileage_age)
         data_dict = {'Manufacturer': self.get_manufacturer_code_value(df_raw, data['brand']),
                      'Model': self.get_model_code_value(df_raw, data['model']),
                      'Made': data['year'],
@@ -82,7 +84,7 @@ class Api:
                      'Fuel': data['fuel'],
                      'Volume': data['volume'],
                      'Published': datetime.datetime.today().strftime('%Y-%m-%d'),
-                     'Mileage/Age': self.df_raw['Mileage/Age'].mean()
+                     'Mileage/Age': mileage_age
                      }
         df = pd.DataFrame(data_dict, index=[0])
         add_datepart(df, 'Published')

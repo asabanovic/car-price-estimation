@@ -4,7 +4,8 @@ from fastai.structured import *
 import numpy as np
 import locale
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_pyfile('env.cfg')
 
 @app.route('/path/<path:subpath>')
 def show_subpath(subpath):
@@ -49,6 +50,8 @@ def index():
     age_ave = int(np.around(df_raw.Made.mean()))
     price_ave = locale.currency(int(np.around(np.exp(y).mean())), grouping=True, symbol=False)
     price_ave = price_ave.replace('.00','')
+    config = app.config
+    env = config['ENV']
     return render_template(
         'index.html',
         df=df_raw,
@@ -58,7 +61,8 @@ def index():
         now=now,
         models=models,
         fuels=fuels,
-        volumes=volumes
+        volumes=volumes,
+        env=env
     )
 
 if __name__ == '__main__':
