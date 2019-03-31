@@ -12,8 +12,8 @@ bleach=3.0.2=py36_0
 blosc=1.14.4=hd9629dc_0
 bokeh=1.0.3=py36_0
 bzip2=1.0.6=h1de35cc_5
-ca-certificates=2018.03.07=0
-certifi=2018.10.15=py36_0
+ca-certificates=2019.1.23=0
+certifi=2019.3.9=py36_0
 cffi=1.11.5=py36h6174b99_1
 chardet=3.0.4=py36_1
 click=7.0=py36_0
@@ -92,7 +92,7 @@ numexpr=2.6.8=py36h7413580_0
 numpy=1.15.4=py36hacdab7b_0
 numpy-base=1.15.4=py36h6575580_0
 olefile=0.46=py36_0
-openssl=1.1.1=h1de35cc_0
+openssl=1.1.1b=h1de35cc_1
 packaging=18.0=py36_0
 pandas=0.23.4=py36h6440ff4_0
 pandoc=1.19.2.1=ha5e8f32_1
@@ -123,7 +123,7 @@ python=3.6.8=haf84260_0
 python-dateutil=2.7.5=py36_0
 pytorch=0.3.1=py36_cuda0.0_cudnn0.0_2
 pytz=2018.7=py36_0
-pyyaml=3.13=py36h1de35cc_0
+pyyaml=5.1=py36h1de35cc_0
 pyzmq=17.1.2=py36h1de35cc_0
 qt=5.9.7=h468cd18_1
 qtconsole=4.4.3=py36_0
